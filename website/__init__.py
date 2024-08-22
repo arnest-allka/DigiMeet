@@ -1,31 +1,18 @@
 from flask import Flask
+from flask_pymongo import PyMongo
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
+
+from .auth import auth
+from .routes import routes
 
 app = Flask(__name__)
+app.config.from_object('config.Config')
 
-def create_app():
-    app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'hjshjhdjahkjshkjdhjs'
+mongo = PyMongo(app)
+bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
+login_manager.login_view = 'auth.login'
 
-    # from .views import views
-    # from .auth import auth
-
-    # app.register_blueprint(views, url_prefix='/')
-    # app.register_blueprint(auth, url_prefix='/')
-
-    # from .models import User, Note
-    
-    # with app.app_context():
-    #     db.create_all()
-
-    # login_manager = LoginManager()
-    # login_manager.login_view = 'auth.login'
-    # login_manager.init_app(app)
-
-    # @login_manager.user_loader
-    # def load_user(id):
-    #     return User.query.get(int(id))
-
-    return app
-
-
- 
+app.register_blueprint(routes, url_prefix='/')
+app.register_blueprint(auth, url_prefix='/')
