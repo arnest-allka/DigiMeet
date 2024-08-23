@@ -10,7 +10,7 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
-
+        
         user = User.find_by_username(username)
         if user and User.check_password(user, password):
                 login_user(user)
