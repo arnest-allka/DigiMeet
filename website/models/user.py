@@ -1,5 +1,5 @@
 from flask_login import UserMixin
-from . import mongo, bcrypt
+from .. import mongo, bcrypt
 
 class User(UserMixin):
     def __init__(self, user_data):

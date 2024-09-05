@@ -24,7 +24,7 @@ def create_app(config_class='config.Config'):
     app.register_blueprint(auth_blueprint, url_prefix='/')
     app.register_blueprint(routes_blueprint, url_prefix='/')
 
-    from .models import User
+    from .models.user import User
 
     login_manager.init_app(app)
     login_manager.login_view = 'auth.login'
