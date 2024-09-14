@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}
+  Event Details: {{ event.name }}
+{% endblock title %}
+{% block content %}
+  <div class="container mt-5">
+    <h1 class="text-center mb-4">{{ event.name }}</h1>
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ event.name }}</h5>
+            <p class="card-text">{{ event.description }}</p>
+            <hr>
+            <p>
+              <strong>Date:</strong> {{ event.date }}
+            </p>
+            <p>
+              <strong>Time:</strong> {{ event.time }}
+            </p>
+            <p>
+              <strong>Place:</strong> {{ event.place }}
+            </p>
+            <p>
+              <strong>Type:</strong> {{ event.type }}
+            </p>
+            {% if event.participants %}
+              <hr>
+              <p>
+                <strong>Participants:</strong>
+              </p>
+              <ul class="list-group">
+                {% for participant in event.participants %}
+                  <li class="list-group-item">{{ participant.first_name }} {{ participant.last_name }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+          <div class="card-footer">
+            <a href='{{ url_for("routes.events") }}' class="btn btn-secondary">Back to Events</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

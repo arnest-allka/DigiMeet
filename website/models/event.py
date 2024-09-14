@@ -32,6 +32,11 @@ class Event():
         if event_data:
             return Event(event_data)
         return None
+    
+    @staticmethod
+    def get_events():
+        events = mongo.db.events.find()
+        return [Event(event) for event in events]
 
     @staticmethod
     def find_by_user_id(user_id):

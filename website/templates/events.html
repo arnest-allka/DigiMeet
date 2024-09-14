@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}
+  All Events
+{% endblock title %}
+{% block content %}
+  <div class="container mt-5">
+    <h1 class="text-center mb-4">All Events</h1>
+    {% if events %}
+      <div class="row">
+        {% for event in events %}
+          <div class="col-md-4 mb-4">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title">{{ event.name }}</h5>
+                <p class="card-text">{{ event.description | truncate(100) }}</p>
+                <p class="card-text">
+                  <strong>Date:</strong> {{ event.date }}
+                  <br>
+                  <strong>Time:</strong> {{ event.time }}
+                  <br>
+                  <strong>Place:</strong> {{ event.place }}
+                  <br>
+                  <strong>Type:</strong> {{ event.type }}
+                </p>
+              </div>
+              <div class="card-footer">
+                <a href='{{ url_for("routes.event_detail", event_id=event.id) }}'
+                   class="btn btn-primary">View Details</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="alert alert-info" role="alert">There are no events available at the moment.</div>
+    {% endif %}
+  </div>
+{% endblock content %}
