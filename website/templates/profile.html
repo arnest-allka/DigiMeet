@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}
+  {{ user.first_name }}'s Profile
+{% endblock title %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h1 class="text-center">Profile of {{ user.first_name }} {{ user.last_name }}</h1>
+
+    <!-- User Information Section -->
+    <div class="row mt-4">
+      <div class="col-md-6 offset-md-3">
+        <div class="card">
+          <div class="card-header">
+            User Details
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">{{ user.first_name }} {{ user.last_name }}</h5>
+            <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
+            <p class="card-text"><strong>Username:</strong> {{ user.username }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Created Events Section -->
+    <div class="row mt-5">
+      <div class="col-md-6">
+        <h2>Created Events</h2>
+        {% if created_events %}
+          <ul class="list-group">
+            {% for event in created_events %}
+              <li class="list-group-item">
+                <h5 class="mb-1">{{ event.name }}</h5>
+                <p class="mb-1">{{ event.description }}</p>
+                <small><strong>Date:</strong> {{ event.date }} | <strong>Time:</strong> {{ event.time }}</small><br>
+                <small><strong>Place:</strong> {{ event.place }}</small><br>
+                <small><strong>Type:</strong> {{ event.type }}</small>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="alert alert-info">You haven't created any events yet.</div>
+        {% endif %}
+      </div>
+
+      <!-- Participating Events Section -->
+      <div class="col-md-6">
+        <h2>Participating Events</h2>
+        {% if participating_events %}
+          <ul class="list-group">
+            {% for event in participating_events %}
+              <li class="list-group-item">
+                <h5 class="mb-1">{{ event.name }}</h5>
+                <p class="mb-1">{{ event.description }}</p>
+                <small><strong>Date:</strong> {{ event.date }} | <strong>Time:</strong> {{ event.time }}</small><br>
+                <small><strong>Place:</strong> {{ event.place }}</small><br>
+                <small><strong>Type:</strong> {{ event.type }}</small>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="alert alert-info">You are not participating in any events yet.</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock content %}

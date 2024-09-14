@@ -5,21 +5,4 @@
 {% block content
   %}
   <h1 align="center">Hello {{ user.first_name }}</h1>
-  {% if events %}
-    <h2>Your Events</h2>
-    <ul>
-      {% for event in events %}
-        <li>
-          <strong>{{ event.name }}</strong><br>
-          Description: {{ event.description }}<br>
-          Date: {{ event.date }}<br>
-          Time: {{ event.time }}<br>
-          Place: {{ event.place }}<br>
-          Type: {{ event.type }}<br>
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>You have no events yet.</p>
-  {% endif %}
 {% endblock content %}

@@ -11,6 +11,7 @@ class Event():
         self.place = event_data["place"]
         self.type = event_data["type"]
         self.user_id = str(event_data["user_id"])
+        self.participants = event_data.get("participants", [])
         
     @staticmethod
     def create_event(name, description, date, time, place, type, user_id):
@@ -40,3 +41,15 @@ class Event():
     @staticmethod
     def delete_event(event_id):
         mongo.db.events.delete_one({"_id": ObjectId(event_id)})
+    
+    @staticmethod
+    def find_by_participant(user_id):
+        events = mongo.db.events.find({"participants": ObjectId(user_id)})
+        return [Event(event) for event in events]
+
+    @staticmethod
+    def add_participant(event_id, user_id):
+        mongo.db.events.update_one(
+            {"_id": ObjectId(event_id)},
+            {"$addToSet": {"participants": ObjectId(user_id)}}
+        )

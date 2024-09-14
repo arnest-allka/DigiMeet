@@ -29,3 +29,11 @@ def create_event():
         return redirect(url_for('routes.home'))
           
     return render_template("create_event.html", user=current_user)
+
+@routes.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
+    created_events = Event.find_by_user_id(current_user.id)
+    participating_events = Event.find_by_participant(current_user.id)
+
+    return render_template('profile.html', user=current_user, created_events=created_events, participating_events=participating_events)
