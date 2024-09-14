@@ -58,7 +58,7 @@ def register():
         elif len(password1) < 7:
             flash('Password must be at least 7 characters.', category='error')
         else:
-            new_user = User.create_user(first_name, last_name, email, username, password1)
+            User.create_user(first_name, last_name, email, username, password1)
             flash('Registration successful. You can now log in.', category='success')
             return redirect(url_for('auth.login'))
 

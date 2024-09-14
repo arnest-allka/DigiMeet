@@ -1,3 +1,4 @@
+from bson import ObjectId
 from flask_login import UserMixin
 from .. import mongo, bcrypt
 
@@ -43,7 +44,7 @@ class User(UserMixin):
 
     @staticmethod
     def find_by_id(id):
-        user_data = mongo.db.users.find_one({"_id": id})
+        user_data = mongo.db.users.find_one({"_id": ObjectId(id)})
         if user_data:
             return User(user_data)
         return None
