@@ -30,14 +30,18 @@
                 <strong>Participants:</strong>
               </p>
               <ul class="list-group">
-                {% for participant in event.participants %}
+                {% for participant in participants %}
                   <li class="list-group-item">{{ participant.first_name }} {{ participant.last_name }}</li>
                 {% endfor %}
               </ul>
             {% endif %}
           </div>
           <div class="card-footer">
-            <a href='{{ url_for("routes.events") }}' class="btn btn-secondary">Back to Events</a>
+            <form action="{{ url_for('routes.event_detail', event_id=event.id) }}"
+                  method="post">
+              <button type="submit" class="btn btn-success">Participate</button>
+            </form>
+            <a href='{{ url_for("routes.events") }}' class="btn btn-secondary mt-2">Back to Events</a>
           </div>
         </div>
       </div>

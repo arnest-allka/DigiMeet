@@ -22,7 +22,8 @@ class Event():
             "time": time,
             "place": place,
             "type": type,
-            "user_id": user_id
+            "user_id": user_id,
+            "participants": [],
         }).inserted_id
         return str(event_id)
     

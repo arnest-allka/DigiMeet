@@ -2,6 +2,7 @@ from flask import Blueprint, abort, flash, redirect, render_template, request, u
 from flask_login import login_required, current_user
 
 from .models.event import Event
+from .models.user import User
 
 routes = Blueprint('routes', __name__)
 
@@ -45,6 +46,20 @@ def events():
 def event_detail():
     event_id = request.args.get('event_id')
     event = Event.find_by_id(event_id)
-    if event is None:
-        abort(404)
-    return render_template('event_detail.html', user=current_user, event=event)
+    participants = [] 
+
+    for participant in event.participants:
+        participants.append(User.find_by_id(participant))
+    
+    if not event:
+        flash("Event not found.", category='error')
+        redirect(url_for("events"))
+    
+    if request.method == 'POST':
+        print(current_user.id)
+        if event.add_participant(event.id, current_user.id):
+            flash("Successfully joined the event!", category="success")
+        else:
+            flash("You are already participating in this event.", category="info")
+              
+    return render_template('event_detail.html', user=current_user, event=event, participants=participants)
