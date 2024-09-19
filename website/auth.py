@@ -17,7 +17,7 @@ def login():
                 flash('Logged in successfully!', category='success')
                 return redirect(url_for('routes.home'))            
         else:
-            flash('Wrong credentials', category='error')
+            flash('Wrong credentials', category='danger')
 
     return render_template("login.html", user=current_user)
 
@@ -40,23 +40,23 @@ def register():
         password2 = request.form.get('password2')
         
         if User.find_by_username(username):
-            flash('Username already exists. Choose a different one.', category='error')
+            flash('Username already exists. Choose a different one.', category='danger')
         elif User.find_by_email(email):
-            flash('Email already exists. Choose a different one.', category='error')
+            flash('Email already exists. Choose a different one.', category='danger')
         elif not all((email, first_name, last_name, username, password1, password2)):
-            flash("Missing fields", category='error')
+            flash("Missing fields", category='danger')
         elif len(email) < 4:
-            flash('Email must be greater than 3 characters.', category='error')
+            flash('Email must be greater than 3 characters.', category='danger')
         elif len(first_name) < 2:
-            flash('First name must be greater than 1 character.', category='error')
+            flash('First name must be greater than 1 character.', category='danger')
         elif len(last_name) < 2:
-            flash('Last name must be greater than 1 character.', category='error')
+            flash('Last name must be greater than 1 character.', category='danger')
         elif len(username) < 2:
-            flash('Username must be greater than 1 character.', category='error')
+            flash('Username must be greater than 1 character.', category='danger')
         elif password1 != password2:
-            flash('Passwords don\'t match.', category='error')
+            flash('Passwords don\'t match.', category='danger')
         elif len(password1) < 7:
-            flash('Password must be at least 7 characters.', category='error')
+            flash('Password must be at least 7 characters.', category='danger')
         else:
             User.create_user(first_name, last_name, email, username, password1)
             flash('Registration successful. You can now log in.', category='success')

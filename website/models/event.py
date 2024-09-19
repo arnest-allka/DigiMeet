@@ -55,7 +55,12 @@ class Event():
 
     @staticmethod
     def add_participant(event_id, user_id):
-        mongo.db.events.update_one(
-            {"_id": ObjectId(event_id)},
-            {"$addToSet": {"participants": ObjectId(user_id)}}
-        )
+        event = mongo.db.events.find_one({"_id": ObjectId(event_id)})
+        if event:
+            if user_id not in event.get('participants', []):
+                mongo.db.events.update_one(
+                    {"_id": ObjectId(event_id)},
+                    {"$push": {"participants": ObjectId(user_id)}}
+                )
+                return True
+        return False

@@ -52,11 +52,10 @@ def event_detail():
         participants.append(User.find_by_id(participant))
     
     if not event:
-        flash("Event not found.", category='error')
+        flash("Event not found.", category='danger')
         redirect(url_for("events"))
-    
+
     if request.method == 'POST':
-        print(current_user.id)
         if event.add_participant(event.id, current_user.id):
             flash("Successfully joined the event!", category="success")
         else:
