@@ -23,9 +23,14 @@ def create_event():
         type = request.form.get('type')
         user_id = current_user.id
 
-        Event.create_event(name, description, date, time, place, type, user_id)
-        flash('Event created successfully!', category='success')
-        return redirect(url_for('routes.home'))
+        if not name or not description or not date or not time or not place or not type:
+            flash("All fields are required to created en event.", category='danger')  
+        elif Event.find_by_name(name):
+            flash("This event name is taken. Choose a different one.", category='danger')
+        else:
+            Event.create_event(name, description, date, time, place, type, user_id)
+            flash('Event created successfully!', category='success')
+            return redirect(url_for('routes.home'))
     return render_template("create_event.html", user=current_user)
 
 @routes.route('/profile', methods=['GET', 'POST'])
@@ -53,7 +58,7 @@ def event_detail():
     
     if not event:
         flash("Event not found.", category='danger')
-        redirect(url_for("events"))
+        return redirect(url_for("routes.events"))
 
     if request.method == 'POST':
         if event.add_participant(event.id, current_user.id):
@@ -62,3 +67,13 @@ def event_detail():
             flash("You are already participating in this event.", category="info")
               
     return render_template('event_detail.html', user=current_user, event=event, participants=participants)
+
+@routes.route('/delete-event', methods=['GET', 'POST'])
+@login_required
+def delete_event():
+    event_id = request.args.get('event_id')
+    if Event.delete_event(event_id):
+        flash("Event deleted successfully.", category='success')
+    else:
+        flash("Could not delete event.", category='danger')
+    return redirect(url_for('routes.profile'))

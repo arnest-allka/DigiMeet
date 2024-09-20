@@ -33,6 +33,13 @@ class Event():
         if event_data:
             return Event(event_data)
         return None
+
+    @staticmethod
+    def find_by_name(event_name):
+        event_data = mongo.db.events.find_one({"name": event_name})
+        if event_data:
+            return Event(event_data)
+        return None
     
     @staticmethod
     def get_events():
@@ -46,7 +53,10 @@ class Event():
 
     @staticmethod
     def delete_event(event_id):
-        mongo.db.events.delete_one({"_id": ObjectId(event_id)})
+        result = mongo.db.events.delete_one({"_id": ObjectId(event_id)})
+        if result.deleted_count == 0:
+            return False
+        return True
     
     @staticmethod
     def find_by_participant(user_id):
@@ -57,7 +67,7 @@ class Event():
     def add_participant(event_id, user_id):
         event = mongo.db.events.find_one({"_id": ObjectId(event_id)})
         if event:
-            if user_id not in event.get('participants', []):
+            if ObjectId(user_id) not in event.get('participants', []):
                 mongo.db.events.update_one(
                     {"_id": ObjectId(event_id)},
                     {"$push": {"participants": ObjectId(user_id)}}
