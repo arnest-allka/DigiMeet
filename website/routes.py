@@ -51,21 +51,19 @@ def events():
 def event_detail():
     event_id = request.args.get('event_id')
     event = Event.find_by_id(event_id)
+    
+    if request.method == 'POST':
+        if Event.add_participant(event.id, current_user.id):
+            flash("Successfully joined the event!", category="success")
+            event = Event.find_by_id(event.id)
+        else:
+            flash("You are already participating in this event.", category="info")
+
     participants = [] 
 
     for participant in event.participants:
         participants.append(User.find_by_id(participant))
-    
-    if not event:
-        flash("Event not found.", category='danger')
-        return redirect(url_for("routes.events"))
 
-    if request.method == 'POST':
-        if event.add_participant(event.id, current_user.id):
-            flash("Successfully joined the event!", category="success")
-        else:
-            flash("You are already participating in this event.", category="info")
-              
     return render_template('event_detail.html', user=current_user, event=event, participants=participants)
 
 @routes.route('/delete-event', methods=['GET', 'POST'])
@@ -77,3 +75,46 @@ def delete_event():
     else:
         flash("Could not delete event.", category='danger')
     return redirect(url_for('routes.profile'))
+
+@routes.route('/update-event', methods=['GET', 'POST'])
+@login_required
+def update_event():
+    event_id = request.args.get('event_id')
+    event = Event.find_by_id(event_id)
+
+    if request.method == 'POST':
+        name = request.form.get('event_name')
+        description = request.form.get('description')
+        date = request.form.get('date')
+        time = request.form.get('time')
+        place = request.form.get('place')
+        type = request.form.get('type')
+        
+        updates = {}
+        if name:
+            if not Event.find_by_name(name):
+                updates['name'] = name
+            else:
+                flash("This name is already taken", category='danger')
+                return redirect(url_for("routes.update_event", user=current_user, event_id=event.id))
+        if description:
+            updates['description'] = description
+        if date:
+            updates['date'] = date
+        if time:
+            updates['time'] = time
+        if place:
+            updates['place'] = place
+        if type:
+            updates['type'] = type
+
+        if updates:
+            event.update_event(event_id, updates)
+            flash("Event updated successfully!", "success")
+            return redirect(url_for('routes.profile'))
+        else:
+            flash("No changes were made.", "info")
+
+    
+    return render_template('update_event.html', user=current_user, event=event)
+    

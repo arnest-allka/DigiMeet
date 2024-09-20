@@ -74,3 +74,12 @@ class Event():
                 )
                 return True
         return False
+    
+    @staticmethod
+    def update_event(event_id, updates):
+        event = mongo.db.events.find_one({"_id": ObjectId(event_id)})
+        if event:
+            mongo.db.events.update_one(
+                {"_id": ObjectId(event_id)}, 
+                {"$set": updates}
+            )
