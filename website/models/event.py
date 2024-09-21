@@ -60,19 +60,41 @@ class Event():
     
     @staticmethod
     def find_by_participant(user_id):
-        events = mongo.db.events.find({"participants": ObjectId(user_id)})
-        return [Event(event) for event in events]
+        result = []
+        events = mongo.db.events.find({"participants.user_id": ObjectId(user_id)})
+        for event in events:
+            for participant in event['participants']:
+                if participant['user_id'] == ObjectId(user_id):
+                    result.append((Event(event), participant['status']))
+        return result
+        
 
     @staticmethod
-    def add_participant(event_id, user_id):
+    def add_participant(event_id, user, status):
         event = mongo.db.events.find_one({"_id": ObjectId(event_id)})
+        
         if event:
-            if ObjectId(user_id) not in event.get('participants', []):
-                mongo.db.events.update_one(
-                    {"_id": ObjectId(event_id)},
-                    {"$push": {"participants": ObjectId(user_id)}}
-                )
-                return True
+            # Check if the user is already in the participants list
+            participant_entry = next((p for p in event.get('participants', []) if p['user_id'] == ObjectId(user.id)), None)
+
+            if participant_entry:
+                if status == "not":
+                    mongo.db.events.update_one(
+                        {"_id": ObjectId(event_id), "participants.user_id": ObjectId(user.id)},
+                        {"$pull": {"participants": {"user_id": ObjectId(user.id)}}}
+                    )
+                else:
+                    mongo.db.events.update_one(
+                        {"_id": ObjectId(event_id), "participants.user_id": ObjectId(user.id)},
+                        {"$set": {"participants.$.status": status}}
+                    )
+            else:
+                if status != "not":
+                    mongo.db.events.update_one(
+                        {"_id": ObjectId(event_id)},
+                        {"$push": {"participants": {"user_id": ObjectId(user.id), "first_name": user.first_name, "last_name": user.last_name, "status": status}}}
+                    )
+            return True
         return False
     
     @staticmethod

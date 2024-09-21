@@ -23,14 +23,19 @@
             <p>
               <strong>Type:</strong> {{ event.type }}
             </p>
-            {% if event.participants %}
+            {% if participants %}
               <hr>
               <p>
                 <strong>Participants:</strong>
               </p>
               <ul class="list-group">
                 {% for participant in participants %}
-                  <li class="list-group-item">{{ participant.first_name }} {{ participant.last_name }}</li>
+                  <li class="list-group-item">
+                    {{ participant.first_name }} {{ participant.last_name }} -
+                    <span class="badge badge-{{ 'success' if participant.status == 'definitely' else 'warning' }}">
+                      {{ participant.status | capitalize }}
+                    </span>
+                  </li>
                 {% endfor %}
               </ul>
             {% endif %}
@@ -38,7 +43,31 @@
           <div class="card-footer">
             <form action="{{ url_for('routes.event_detail', event_id=event.id) }}"
                   method="post">
-              <button type="submit" class="btn btn-success">Participate</button>
+              <div class="form-check">
+                <input class="form-check-input"
+                       type="radio"
+                       name="participation"
+                       id="definitely"
+                       value="definitely">
+                <label class="form-check-label" for="definitely">Definitely Attending</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input"
+                       type="radio"
+                       name="participation"
+                       id="maybe"
+                       value="maybe">
+                <label class="form-check-label" for="maybe">Maybe Attending</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input"
+                       type="radio"
+                       name="participation"
+                       id="not"
+                       value="not">
+                <label class="form-check-label" for="not">Not going</label>
+              </div>
+              <button type="submit" class="btn btn-success">Submit</button>
             </form>
           </div>
         </div>

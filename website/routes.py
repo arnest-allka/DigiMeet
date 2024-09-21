@@ -1,4 +1,5 @@
 from datetime import datetime
+from bson import ObjectId
 from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
 from flask_login import login_required, current_user
 
@@ -56,18 +57,33 @@ def events():
 def event_detail():
     event_id = request.args.get('event_id')
     event = Event.find_by_id(event_id)
+
+    if not event:
+        flash("Event not found.", category="danger")
+        return redirect(url_for('events'))
+
     
     if request.method == 'POST':
-        if Event.add_participant(event.id, current_user.id):
-            flash("Successfully joined the event!", category="success")
+        participation_status = request.form.get('participation')
+
+        if participation_status == "definitely":
+            flash(f"{current_user.first_name} has confirmed attendance.", category="success")
+        elif participation_status == "maybe":
+            flash(f"{current_user.first_name} is not sure but may attend.", category="success")
+        elif participation_status == "not":
+            flash(f"{current_user.first_name} is not going to the event.", category="success")
+        else:
+            flash("Invalid participation status.", category="warning")
+            return redirect(url_for('routes.event_detail', event_id=event_id))
+        
+        if Event.add_participant(event.id, current_user, participation_status):
+            if participation_status != "not":
+                flash("Successfully joined the event!", category="success")
             event = Event.find_by_id(event.id)
         else:
-            flash("You are already participating in this event.", category="info")
+            flash("You are already participating in this event. No changes were made.", category="info")
 
-    participants = [] 
-
-    for participant in event.participants:
-        participants.append(User.find_by_id(participant))
+    participants = event.participants
 
     return render_template('event_detail.html', user=current_user, event=event, participants=participants)
 

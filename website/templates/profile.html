@@ -56,15 +56,21 @@
         <h2>Participating Events</h2>
         {% if participating_events %}
           <ul class="list-group">
-            {% for event in participating_events %}
+            {% for event, status in participating_events %}
               <li class="list-group-item">
-                <h5 class="mb-1">{{ event.name }}</h5>
+                <h5 class="mb-1">
+                  {{ event.name }} -
+                  <span class="badge badge-{{ 'success' if status == 'definitely' else 'warning' }}">{{ status | capitalize }}</span>
+                </h5>
                 <p class="mb-1">{{ event.description }}</p>
                 <small><strong>Date:</strong> {{ event.date }} | <strong>Time:</strong> {{ event.time }}</small>
                 <br>
                 <small><strong>Place:</strong> {{ event.place }}</small>
                 <br>
                 <small><strong>Type:</strong> {{ event.type }}</small>
+                <br>
+                <a href='{{ url_for("routes.event_detail", event_id=event.id) }}'
+                   class="btn btn-primary">View Details</a>
               </li>
             {% endfor %}
           </ul>
