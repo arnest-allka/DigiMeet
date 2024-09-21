@@ -4,12 +4,10 @@ from flask import Blueprint, abort, flash, redirect, render_template, request, u
 from flask_login import login_required, current_user
 
 from .models.event import Event
-from .models.user import User
 
 routes = Blueprint('routes', __name__)
 
 @routes.route('/', methods=['GET', 'POST'])
-@login_required
 def home():
     return render_template("home.html", user=current_user)
 
@@ -47,7 +45,6 @@ def profile():
     return render_template('profile.html', user=current_user, created_events=created_events, participating_events=participating_events)
 
 @routes.route('/events', methods=['GET', 'POST'])
-@login_required
 def events():
     events = Event.get_events()
     return render_template('events.html', user=current_user, events=events)
@@ -144,4 +141,13 @@ def update_event():
 
     
     return render_template('update_event.html', user=current_user, event=event)
-    
+
+@routes.route('/search-events', methods=['GET'])
+def search_events():
+    title = request.args.get('title', '')
+    place = request.args.get('place', '')
+    type = request.args.get('type', '')
+
+    events = Event.search_events(title, place, type)
+
+    return render_template('home.html', user=current_user, events=events)

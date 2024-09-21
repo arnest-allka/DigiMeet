@@ -4,5 +4,65 @@
 {% endblock title %}
 {% block content
   %}
-  <h1 align="center">Hello {{ user.first_name }}</h1>
+  <h1 align="center">Wellcome</h1>
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+      <h3 class="text-center">Search Events</h3>
+      <form method="get" action='{{ url_for("routes.search_events") }}'>
+        <div class="form-group">
+          <label for="title">Event Name</label>
+          <input type="text"
+                 name="title"
+                 class="form-control"
+                 id="title"
+                 placeholder="Event name">
+        </div>
+        <div class="form-group">
+          <label for="place">Event Place</label>
+          <input type="text"
+                 name="place"
+                 class="form-control"
+                 id="place"
+                 placeholder="Event place">
+        </div>
+        <div class="form-group">
+          <label for="type">Event Type</label>
+          <input type="text"
+                 name="type"
+                 class="form-control"
+                 id="type"
+                 placeholder="Event type">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Search</button>
+      </form>
+    </div>
+  </div>
+  <!-- Event Search Results -->
+  {% if events %}
+    <div class="row justify-content-center mt-5">
+      <div class="col-md-10">
+        <h4 class="text-center">Search Results</h4>
+        <ul class="list-group">
+          {% for event in events %}
+            <li class="list-group-item">
+              <h5>{{ event.name }}</h5>
+              <p>
+                <strong>Place:</strong> {{ event.place }}
+              </p>
+              <p>
+                <strong>Type:</strong> {{ event.type }}
+              </p>
+              <p>
+                <strong>Date:</strong> {{ event.date }} | <strong>Time:</strong> {{ event.time }}
+              </p>
+              <a href='{{ url_for("routes.event_detail", event_id=event.id) }}'
+                 class="btn btn-primary">View Details</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  {% else %}
+    <div class="alert alert-info text-center mt-5">No events found.</div>
+  {% endif %}
 {% endblock content %}

@@ -105,3 +105,19 @@ class Event():
                 {"_id": ObjectId(event_id)}, 
                 {"$set": updates}
             )
+            
+    @staticmethod
+    def search_events(title, place, type):
+        query = {}
+    
+        if title:
+            query['name'] = {'$regex': title, '$options': 'i'}  # Case-insensitive search for title
+        if place:
+            query['place'] = {'$regex': place, '$options': 'i'}  
+        if type:
+            query['type'] = {'$regex': type, '$options': 'i'}
+
+        events = mongo.db.events.find(query)
+
+        # Convert MongoDB event data to Event objects
+        return [Event(event) for event in events]
