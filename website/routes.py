@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
 from flask_login import login_required, current_user
 
@@ -23,10 +24,14 @@ def create_event():
         type = request.form.get('type')
         user_id = current_user.id
 
+        now = str(datetime.now())
+        
         if not name or not description or not date or not time or not place or not type:
             flash("All fields are required to created en event.", category='danger')  
         elif Event.find_by_name(name):
             flash("This event name is taken. Choose a different one.", category='danger')
+        elif date < now:
+            flash("Choose a valid date for the event.", category='danger')
         else:
             Event.create_event(name, description, date, time, place, type, user_id)
             flash('Event created successfully!', category='success')
@@ -90,6 +95,8 @@ def update_event():
         place = request.form.get('place')
         type = request.form.get('type')
         
+        now = str(datetime.now())
+        
         updates = {}
         if name:
             if not Event.find_by_name(name):
@@ -100,7 +107,11 @@ def update_event():
         if description:
             updates['description'] = description
         if date:
-            updates['date'] = date
+            if date < now:
+                flash("Please choose a valid date for the event.", category='danger')
+                return redirect(url_for("routes.update_event", user=current_user, event_id=event.id))
+            else:
+                updates['date'] = date
         if time:
             updates['time'] = time
         if place:
