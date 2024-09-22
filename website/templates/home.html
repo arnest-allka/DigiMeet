@@ -4,7 +4,15 @@
 {% endblock title %}
 {% block content
   %}
-  <h1 align="center">Wellcome</h1>
+  {% if user.is_authenticated %}
+    {% if user.is_admin %}
+      <h1 align="center">Wellcome Admin</h1>
+    {% else %}
+      <h1 align="center">Wellcome {{ user.first_name }}</h1>
+    {% endif %}
+  {% else %}
+    <h1 align="center">Wellcome</h1>
+  {% endif %}
   <div class="row justify-content-center mt-4">
     <div class="col-md-8">
       <h3 class="text-center">Search Events</h3>
@@ -38,30 +46,38 @@
     </div>
   </div>
   <!-- Event Search Results -->
-  {% if events %}
-    <div class="row justify-content-center mt-5">
-      <div class="col-md-10">
-        <h4 class="text-center">Search Results</h4>
-        <ul class="list-group">
-          {% for event in events %}
-            <li class="list-group-item">
-              <h5>{{ event.name }}</h5>
-              <p>
-                <strong>Place:</strong> {{ event.place }}
-              </p>
-              <p>
-                <strong>Type:</strong> {{ event.type }}
-              </p>
-              <p>
-                <strong>Date:</strong> {{ event.date }} | <strong>Time:</strong> {{ event.time }}
-              </p>
-              <a href='{{ url_for("routes.event_detail", event_id=event.id) }}'
-                 class="btn btn-primary">View Details</a>
-            </li>
-          {% endfor %}
-        </ul>
+  {% if events != [] %}
+    {% if events %}
+      <div class="row justify-content-center mt-5">
+        <div class="col-md-10">
+          <h4 class="text-center">Search Results</h4>
+          <ul class="list-group">
+            {% for event in events %}
+              <li class="list-group-item">
+                <h5>{{ event.name }}</h5>
+                <p>
+                  <strong>Place:</strong> {{ event.place }}
+                </p>
+                <p>
+                  <strong>Type:</strong> {{ event.type }}
+                </p>
+                <p>
+                  <strong>Date:</strong> {{ event.date }} | <strong>Time:</strong> {{ event.time }}
+                </p>
+                <a href='{{ url_for("routes.event_detail", event_id=event.id) }}'
+                   class="btn btn-primary">View Details</a>
+                {% if user.is_admin %}
+                  <a href='{{ url_for("routes.update_event", event_id=event.id) }}'
+                     class="btn btn-success">Update</a>
+                  <a href='{{ url_for("routes.delete_event", event_id=event.id) }}'
+                     class="btn btn-danger">Delete</a>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
       </div>
-    </div>
+    {% endif %}
   {% else %}
     <div class="alert alert-info text-center mt-5">No events found.</div>
   {% endif %}

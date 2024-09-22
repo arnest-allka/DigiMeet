@@ -65,3 +65,24 @@ class User(UserMixin):
             "is_admin": is_admin
         }).inserted_id
         return str(user_id)
+
+    @staticmethod
+    def get_users():
+        users = mongo.db.users.find({"is_admin": False})
+        return [User(user) for user in users]
+
+    @staticmethod
+    def update_user(user_id, updates):
+        user = mongo.db.users.find_one({"_id": ObjectId(user_id)})
+        if user:
+            mongo.db.users.update_one(
+                {"_id": ObjectId(user_id)}, 
+                {"$set": updates}
+            )
+
+    @staticmethod
+    def delete_user(user_id):
+        result = mongo.db.users.delete_one({"_id": ObjectId(user_id)})
+        if result.deleted_count == 0:
+            return False
+        return True

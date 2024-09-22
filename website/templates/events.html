@@ -25,6 +25,12 @@
               <div class="card-footer">
                 <a href='{{ url_for("routes.event_detail", event_id=event.id) }}'
                    class="btn btn-primary">View Details</a>
+                {% if user.is_admin %}
+                  <a href='{{ url_for("routes.update_event", event_id=event.id) }}'
+                     class="btn btn-success">Update</a>
+                  <a href='{{ url_for("routes.delete_event", event_id=event.id) }}'
+                     class="btn btn-danger">Delete</a>
+                {% endif %}
               </div>
             </div>
           </div>

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}
+  All Users
+{% endblock title %}
+{% block content %}
+  <div class="container mt-5">
+    <h1 class="text-center mb-4">All Users</h1>
+    {% if users %}
+      <div class="row">
+        {% for user in users %}
+          <div class="col-md-4 mb-4">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title">{{ user.username }}</h5>
+                <p class="card-text">
+                  <strong>First Name:</strong> {{ user.first_name }}
+                  <br>
+                  <strong>Last Name:</strong> {{ user.last_name }}
+                  <br>
+                  <strong>Email:</strong> {{ user.email }}
+                </p>
+              </div>
+              <div class="card-footer">
+                <a href='{{ url_for("routes.update_user", user_id=user.id) }}'
+                   class="btn btn-success">Update</a>
+                <a href='{{ url_for("routes.delete_user", user_id=user.id) }}'
+                   class="btn btn-danger">Delete</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="alert alert-info" role="alert">There are no users.</div>
+    {% endif %}
+  </div>
+{% endblock content %}

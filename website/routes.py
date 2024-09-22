@@ -1,13 +1,13 @@
 from datetime import datetime
-from bson import ObjectId
-from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_required, current_user
 
 from .models.event import Event
+from .models.user import User
 
 routes = Blueprint('routes', __name__)
 
-@routes.route('/', methods=['GET', 'POST'])
+@routes.route('/', methods=['GET'])
 def home():
     return render_template("home.html", user=current_user)
 
@@ -58,7 +58,6 @@ def event_detail():
     if not event:
         flash("Event not found.", category="danger")
         return redirect(url_for('events'))
-
     
     if request.method == 'POST':
         participation_status = request.form.get('participation')
@@ -79,10 +78,8 @@ def event_detail():
             event = Event.find_by_id(event.id)
         else:
             flash("You are already participating in this event. No changes were made.", category="info")
-
-    participants = event.participants
-
-    return render_template('event_detail.html', user=current_user, event=event, participants=participants)
+    
+    return render_template('event_detail.html', user=current_user, event=event)
 
 @routes.route('/delete-event', methods=['GET', 'POST'])
 @login_required
@@ -92,6 +89,8 @@ def delete_event():
         flash("Event deleted successfully.", category='success')
     else:
         flash("Could not delete event.", category='danger')
+    if current_user.is_admin:
+        return redirect(url_for('routes.events'))
     return redirect(url_for('routes.profile'))
 
 @routes.route('/update-event', methods=['GET', 'POST'])
@@ -134,12 +133,13 @@ def update_event():
 
         if updates:
             event.update_event(event_id, updates)
-            flash("Event updated successfully!", "success")
+            flash("Event updated successfully!", category="success")
+            if current_user.is_admin:
+                return redirect(url_for('routes.events'))    
             return redirect(url_for('routes.profile'))
         else:
-            flash("No changes were made.", "info")
+            flash("No changes were made.", category="info")
 
-    
     return render_template('update_event.html', user=current_user, event=event)
 
 @routes.route('/search-events', methods=['GET'])
@@ -149,5 +149,94 @@ def search_events():
     type = request.args.get('type', '')
 
     events = Event.search_events(title, place, type)
+    print(events)
 
     return render_template('home.html', user=current_user, events=events)
+
+@routes.route('/users', methods=['GET', 'POST'])
+@login_required
+def users():
+    user = User.get_users()
+    return render_template('users.html', user=current_user, users=user)
+
+@routes.route('/update-user', methods=['GET', 'POST'])
+@login_required
+def update_user():
+    user_id = request.args.get('user_id')
+    user = User.find_by_id(user_id)
+    
+    if request.method == 'POST':
+        email = request.form.get('email')
+        first_name = request.form.get('firstName')
+        last_name = request.form.get('lastName')
+        username = request.form.get('username')
+        password = request.form.get('password')
+        
+        updates = {}
+
+        if username:
+            if User.find_by_username(username):
+                flash('Username already exists. Choose a different one.', category='danger')
+                return redirect(url_for('routes.update_user', user=current_user, user_id=user.id))
+            elif len(username) < 2:
+                flash('Username must be greater than 1 character.', category='danger')
+                return redirect(url_for('routes.update_user', user=current_user, user_id=user.id))
+            else:
+                updates['username'] = username
+        if email:
+            if User.find_by_email(email):
+                flash('Email already exists. Choose a different one.', category='danger')
+                return redirect(url_for('routes.update_user', user=current_user, user_id=user.id))
+            elif len(email) < 4:
+                flash('Email must be greater than 3 characters.', category='danger')
+                return redirect(url_for('routes.update_user', user=current_user, user_id=user.id))
+            else:
+                updates['email']=email
+        if first_name:
+            if len(first_name) < 2:
+                flash('First name must be greater than 1 character.', category='danger')
+                return redirect(url_for('routes.update_user', user=current_user, user_id=user.id))
+            else:
+                updates['first_name']=first_name
+        if last_name:
+            if len(last_name) < 2:
+                flash('Last name must be greater than 1 character.', category='danger')
+                return redirect(url_for('routes.update_user', user=current_user, user_id=user.id))
+            else:
+                updates['last_name']=last_name
+        if password:                
+            if len(password) < 7:
+                flash('Password must be at least 7 characters.', category='danger')
+                return redirect(url_for('routes.update_user', user=current_user, user_id=user.id))
+            else:
+                updates['password']=password
+        
+        if updates:
+            user.update_user(user_id, updates)
+            flash("User updated successfully!", category="success")
+            return redirect(url_for('routes.users'))    
+        else:
+            flash("No changes were made.", category="info")
+
+    return render_template("update_user.html", user=current_user, updating_user=user)
+
+
+@routes.route('/delete-user', methods=['GET', 'POST'])
+@login_required
+def delete_user():
+    if not current_user.is_admin:
+        redirect(url_for("routes.home"))
+    
+    user_id = request.args.get('user_id')
+    user = User.find_by_id(user_id)
+    
+    if user:
+        Event.remove_participant_from_events(user_id)
+
+        Event.delete_events_by_owner(user_id)
+        
+        User.delete_user(user_id)
+        flash("User deleted successfully.", category='success')
+    else:
+        flash("Could not delete user.", category='danger')
+    return redirect(url_for('routes.users'))

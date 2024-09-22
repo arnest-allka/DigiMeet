@@ -121,3 +121,25 @@ class Event():
 
         # Convert MongoDB event data to Event objects
         return [Event(event) for event in events]
+
+    @staticmethod
+    def remove_participant_from_events(user_id):
+        events = mongo.db.events.find({"participants.user_id": ObjectId(user_id)})
+        
+        if events:
+            for event in events:
+                mongo.db.events.update_one(
+                    {"_id": event["_id"]}, 
+                    {"$pull": {"participants": {"user_id": ObjectId(user_id)}}}
+                )
+
+    @staticmethod
+    def delete_events_by_owner(user_id):
+        # Find all events created by the user
+        events = mongo.db.events.find({"user_id": user_id})
+
+        if events:
+            for event in events:
+                print(event['_id'])
+                # Delete each event found
+                mongo.db.events.delete_one({"_id": event["_id"]})
