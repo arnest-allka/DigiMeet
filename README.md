@@ -210,3 +210,29 @@
    Ο διαχειριστής μπορεί να επιλέξει "View Details" για να δει τις πληροφορίες της εκδήλωσης, όμως δεν μπορεί να συμμετάσχει όπως έναν συνδεδεμένο χρήστη.
 
    Ο διαχειριστής μπορεί να επιλέξει "Update" για να τροποποιήσει τα στοιχεία μιας εκδήλωσης ή "Delete" για να τη διαγράψει.
+
+### Αναφορές
+
+- Flask Documentation - Χρησιμοποιήθηκε για την υλοποίηση του web framework.
+
+  [Flask Documentation](https://flask.palletsprojects.com/en/3.0.x/)
+
+- Flask-Login Documentation - Χρησιμοποιήθηκε για τη διαχείριση συνεδριών και ταυτοποίησης χρηστών.
+
+  [Flask-Login Documentation](https://flask-login.readthedocs.io/en/latest/)
+
+- PyMongo Documentation - Χρησιμοποιήθηκε για τη σύνδεση και την αλληλεπίδραση με τη βάση δεδομένων MongoDB.
+
+  [PyMongo Documentation](https://pymongo.readthedocs.io/en/stable/)
+
+- MongoDB Documentation - Αναφορά για τη δημιουργία και τη διαχείριση της MongoDB βάσης δεδομένων.
+
+  [MongoDB Documentation](https://www.mongodb.com/docs/)
+
+- Docker Documentation - Χρησιμοποιήθηκε για τη ρύθμιση των container του συστήματος.
+
+  [Docker Documentation](https://docs.docker.com/)
+
+- Bootstrap Documentation - Χρησιμοποιήθηκε για το responsive design του frontend.
+
+  [Bootstrap Documentation](https://getbootstrap.com/docs/4.1/getting-started/introduction/)
