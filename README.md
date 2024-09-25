@@ -213,26 +213,14 @@
 
 ## Αναφορές
 
-- Flask Documentation - Χρησιμοποιήθηκε για την υλοποίηση του web framework.
+- [Flask Documentation](https://flask.palletsprojects.com/en/3.0.x/) - Χρησιμοποιήθηκε για την υλοποίηση του web framework.
 
-  [Flask Documentation](https://flask.palletsprojects.com/en/3.0.x/)
+- [Flask-Login Documentation](https://flask-login.readthedocs.io/en/latest/) - Χρησιμοποιήθηκε για τη διαχείριση συνεδριών και ταυτοποίησης χρηστών.
 
-- Flask-Login Documentation - Χρησιμοποιήθηκε για τη διαχείριση συνεδριών και ταυτοποίησης χρηστών.
+- [PyMongo Documentation](https://pymongo.readthedocs.io/en/stable/) - Χρησιμοποιήθηκε για τη σύνδεση και την αλληλεπίδραση με τη βάση δεδομένων MongoDB.
 
-  [Flask-Login Documentation](https://flask-login.readthedocs.io/en/latest/)
+- [MongoDB Documentation](https://www.mongodb.com/docs/) - Αναφορά για τη δημιουργία και τη διαχείριση της MongoDB βάσης δεδομένων.
 
-- PyMongo Documentation - Χρησιμοποιήθηκε για τη σύνδεση και την αλληλεπίδραση με τη βάση δεδομένων MongoDB.
+- [Docker Documentation](https://docs.docker.com/) - Χρησιμοποιήθηκε για τη ρύθμιση των container του συστήματος.
 
-  [PyMongo Documentation](https://pymongo.readthedocs.io/en/stable/)
-
-- MongoDB Documentation - Αναφορά για τη δημιουργία και τη διαχείριση της MongoDB βάσης δεδομένων.
-
-  [MongoDB Documentation](https://www.mongodb.com/docs/)
-
-- Docker Documentation - Χρησιμοποιήθηκε για τη ρύθμιση των container του συστήματος.
-
-  [Docker Documentation](https://docs.docker.com/)
-
-- Bootstrap Documentation - Χρησιμοποιήθηκε για το responsive design του frontend.
-
-  [Bootstrap Documentation](https://getbootstrap.com/docs/4.1/getting-started/introduction/)
+- [Bootstrap Documentation](https://getbootstrap.com/docs/4.1/getting-started/introduction/) - Χρησιμοποιήθηκε για το responsive design του frontend.
