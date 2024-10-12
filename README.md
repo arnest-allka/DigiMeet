@@ -1,226 +1,227 @@
+
 # DigiMeet - Event Management System
 
-## Περιεχόμενα
+## Contents
 
-1. [Επιπλέων Παραδοχές και Παρεκκλίσεις από την Εκφώνηση](#επιπλέων-παραδοχές-και-παρεκκλίσεις-από-την-εκφώνηση)
-2. [Τεχνολογίες που Χρησιμοποιήθηκαν](#τεχνολογίες-που-χρησιμοποιήθηκαν)
-3. [Περιγραφή Αρχείων](#περιγραφή-αρχείων)
-4. [Τρόπος Εκτέλεσης Συστήματος](#τρόπος-εκτέλεσης-συστήματος)
-5. [Τρόπος Χρήσης Συστήματος](#τρόπος-χρήσης-συστήματος)
-6. [Αναφορές](#αναφορές)
+1. [Additional Assumptions and Deviations from the Statement](#additional-assumptions-and-deviations-from-the-statement)
+2. [Technologies Used](#technologies-used)
+3. [File Description](#file-description)
+4. [System Execution Method](#system-execution-method)
+5. [System Usage Guide](#system-usage-guide)
+6. [References](#references)
 
 ---
 
-## Επιπλέων Παραδοχές και Παρεκκλίσεις από την Εκφώνηση
+## Additional Assumptions and Deviations from the Statement
 
-- Κάθε χρήστης πρέπει να έχει μοναδικό username και email.
-- Κάθε χρήστης μπορεί να δημιουργήσει εκδηλώσεις και να συμμετάσχει σε όλες τις εκδηλώσεις.
-- Κάθε χρήστης μπορεί να διαγράψει και να ενημερώσει τις δικές του εκδηλώσεις.
-- Αν ο χρήστης αλλάξει γνώμη μπορεί να αλλάξει την συμμετοχή του στην εκδηλωση.
-- Κάθε εκδήλωση μπορεί να έχει διαφορετικό τύπο συμμετοχής (σίγουρη συμμετοχή, ενδεχόμενη συμμετοχή).
-- Ο διαχειριστής έχει πλήρη δικαιώματα διαχείρισης των εκδηλώσεων και χρηστών.
-- Όταν ο διαχειριστής διαγράφει έναν χρήστη, διαγράφονται και οι εκφηλώσεις που είχε δημιουργήσει.
+- Each user must have a unique username and email.
+- Each user can create events and participate in all events.
+- Each user can delete and update their own events.
+- If a user changes their mind, they can change their participation status in the event.
+- Each event can have a different participation type (definite attendance, potential attendance).
+- The administrator has full management rights over events and users.
+- When the administrator deletes a user, the events they created are also deleted.
 
-## Τεχνολογίες που Χρησιμοποιήθηκαν
+## Technologies Used
 
 - **Python**: Backend
-- **Flask**: Web framework για την υλοποίηση του API Server
-- **Flask-Login**: Authentication και διαχείριση χρήστη
-- **PyMongo**: Αλληλεπίδραση με MongoDB
-- **MongoDB**: Βάση δεδομένων για την αποθήκευση χρηστών και εκδηλώσεων
-- **Bootstrap**: Frontend CSS για responsive design
-- **Docker**: Για την δημιουργία container του συστήματος
+- **Flask**: Web framework for implementing the API Server
+- **Flask-Login**: Authentication and user management
+- **PyMongo**: Interaction with MongoDB
+- **MongoDB**: Database for storing users and events
+- **Bootstrap**: Frontend CSS for responsive design
+- **Docker**: Used for creating a container for the system
 
-## Περιγραφή Αρχείων
+## File Description
 
-- **/website/**: Περιέχει τον κώδικα της εφαρμογής με τα blueprints.
-  - **/models/**: Περιέχει τα μοντέλα `User` και `Event` που διαχειρίζονται την αλληλεπίδραση με τη βάση δεδομένων.
-  - **/templates/**: Περιέχει τα HTML templates για το frontend.
-  - **\_\_init\_\_.py**: Ρυθμίσεις της εφαρμογής και αρχικοποίηση των extensions.
-  - **routes.py**: Περιέχει τα routes της εφαρμογής για τους χρήστες και εκδηλώσεις.
-  - **auth.py**: Περιέχει τα routes που σχετίζονται με την αυθεντικοποίηση.
-- **Dockerfile**: Περιγράφει το image που χρησιμοποιείται για το Flask app.
-- **docker-compose.yml**: Ρυθμίζει την εκτέλεση του συστήματος μέσω Docker με MongoDB και Flask.
-- **requirements.txt**: Αρχείο που περιέχει ολα τις απαραίτητες βιβλιοθήκες που χρειάζεται η εφαρμογή.
-- **config.py**: Αρχείο ρυθμίσεων με τις παραμέτρους της εφαρμογής.
-- **main.py**: Το κεντρικό αρχείο για την εκτέλεση του Flask app.
+- **/website/**: Contains the application code with the blueprints.
+  - **/models/**: Contains the `User` and `Event` models that manage interaction with the database.
+  - **/templates/**: Contains the HTML templates for the frontend.
+  - **\_\_init\_\_.py**: Application settings and extension initialization.
+  - **routes.py**: Contains the application routes for users and events.
+  - **auth.py**: Contains the routes related to authentication.
+- **Dockerfile**: Describes the image used for the Flask app.
+- **docker-compose.yml**: Configures the execution of the system via Docker with MongoDB and Flask.
+- **requirements.txt**: File containing all the necessary libraries needed by the application.
+- **config.py**: Configuration file with application parameters.
+- **main.py**: Main file for running the Flask app.
 
-## Τρόπος Εκτέλεσης Συστήματος
+## System Execution Method
 
-1. Κλώνο το repository:
+1. Clone the repository:
 
    ```bash
    git clone https://github.com/arnest-allka/YpoxreotikiErgasiaSept24_e21004_Allka_Arnest.git
    cd YpoxreotikiErgasiaSept24_e21004_Allka_Arnest
    ```
 
-2. Εκτέλεση του συστήματος με Docker:
+2. Run the system with Docker:
 
    ```bash
    docker-compose up -d
    ```
 
-3. Η εφαρμογή θα εκκινήσει στο http://localhost:5000.
+3. The application will start at http://localhost:5000.
 
-## Τρόπος Χρήσης Συστήματος
+## System Usage Guide
 
-1. Εμφάνιση ολων των Εκδηλώσεων
+1. Display All Events
 
-   Η επιλογή "Events" στο μενού εμφανίζει όλες τις διαθέσιμες εκδηλώσεις που ύπαρχουν στο σύστημα.
+   The "Events" option in the menu displays all available events in the system.
 
-   Αυτές εμφανίζονται σε όλους τους χρήστες που χρησιμοποιούν την ιστοσελίδα, ανεξαρτήτως αν είναι συνδεδεμένοι ή οχι.
+   These are visible to all users of the website, whether they are logged in or not.
 
-   Σε κάθε εκδήλωση υπάρχει ενα κουμπί "View Details", όπου εμφανίζονται οι πληροφορίες της εκδήλωσης.
-   Σε αυτό έχουν δυνατότητα μονο συνδεδεμένοι χρήστες.
+   Each event has a "View Details" button, where event information is displayed.
+   This is accessible only to logged-in users.
 
-2. Αναζήτηση Εκδηλώσεων
+2. Search Events
 
-   Στην αρχική σελιδά εμφανίζεται μια φόρμα απο τρία πεδία όπου ο χρήστης μπορεί να αναζητήσει εκδηλώσεις με βάση το όνομα, την τοποθεσία και τον τύπο της εκδήλωσης το οποιο τον ενδιαφέρει.
+   A search form with three fields is available on the homepage, allowing users to search for events based on name, location, and type.
 
-   Στην συνέχεια εμφανίζονται οι εκδηλώσεις που βρέθηκαν, αλλιώς εμφανίζεται μήνυμα "No events found."
+   The events found will be displayed, otherwise a "No events found" message appears.
 
-   Σε κάθε εκδήλωση υπάρχει ενα κουμπί "View Details", όπου εμφανίζονται οι πληροφορίες της εκδήλωσης.
-   Σε αυτό έχουν δυνατότητα μονο συνδεδεμένοι χρήστες.
+   Each event has a "View Details" button, where event information is displayed.
+   This is accessible only to logged-in users.
 
-### Χρήστης
+### User
 
-Ο χρήστης έχει τη δυνατότητα να εκτελέσει βασικές λειτουργίες όπως η εγγραφή ή σύνδεση, η δημιουργία εκδηλώσεων, η συμμετοχή σε εκδηλώσεις και προβολή και επεξεργασία των εκδηλώσεων που του ανήκουν.
+The user can perform basic functions such as registering or logging in, creating events, participating in events, and viewing and editing their own events.
 
-1.  Εγγραφή Χρήστη
+1.  User Registration
 
-    Για την εγγραφή του χρήστη στο σύστημα:
+    To register a user in the system:
 
-    Ο χρήστης εισάγει τα εξής στοιχεία: Όνομα, Επώνυμο, Email, Username και Κωδικό πρόσβασης.
-    Μετά την εγγραφή, ο χρήστης μπορεί να συνδεθεί στο σύστημα.
+    The user enters the following information: First Name, Last Name, Email, Username, and Password.
+    After registration, the user can log in to the system.
 
-    Παράδειγμα εκτέλεσης:
+    Example execution:
 
-    Ο χρήστης επιλέγει την επιλογή "Sign up" από τo Μενού.
+    The user selects the "Sign up" option from the Menu.
 
-    Συμπληρώνει τη φόρμα:
+    Fills out the form:
 
     ```bash
-    Όνομα: Arnest
-    Επώνυμο: Allka
+    First Name: Arnest
+    Last Name: Allka
     Email: arisallkas@gmail.com
     Username: aris
-    Κωδικός: ds-e21004
-    Επαλήθευση Κωδικού: ds-e21004
+    Password: ds-e21004
+    Confirm Password: ds-e21004
     ```
 
-    Πατάει "Submit" και το σύστημα εμφανίζει μήνυμα επιτυχίας: "Registration successful. You can now log in.".
-    Το σύστημα τον ανεκατευθυνει στην σελίδα συνδεσης.
+    Clicks "Submit" and the system displays a success message: "Registration successful. You can now log in.".
+    The system redirects them to the login page.
 
-2.  Σύνδεση Χρήστη
+2.  User Login
 
-    Μετά την εγγραφή, ο χρήστης μπορεί να συνδεθεί στο σύστημα με το username και password του.
+    After registration, the user can log in to the system using their username and password.
 
-    Παράδειγμα εκτέλεσης:
+    Example execution:
 
-    Ο χρήστης επιλέγει την επιλογή "Login" και συμπληρώνει τη φόρμα με το username και τον κωδικό του.
+    The user selects the "Login" option and fills out the form with their username and password.
 
-    Συμπληρώνει τη φόρμα:
+    Fills out the form:
 
     ```bash
     Username: aris
-    Κωδικός: ds-e21004
+    Password: ds-e21004
     ```
 
-    Πατάει "Submit" και το σύστημα εμφανίζει μήνυμα επιτυχίας: "Logged in successfully!".
-    Το σύστημα τον ανεκατευθυνει στην αρχική σελίδα.
+    Clicks "Submit" and the system displays a success message: "Logged in successfully!".
+    The system redirects them to the homepage.
 
-3.  Δημιουργία Εκδήλωσης
+3.  Create Event
 
-    Αφού συνδεθεί, ο χρήστης μπορεί να δημιουργήσει εκδήλωση στο σύστημα.
+    After logging in, the user can create an event in the system.
 
-    Παράδειγμα εκτέλεσης:
+    Example execution:
 
-    Επιλέγει "Create Event".
+    Selects "Create Event".
 
-    Συμπληρώνει τα στοιχεία της εκδήλωσης:
+    Fills out the event details:
 
     ```bash
     Event Name: Tech Meetup
-    Description: Συζήτηση για τις νέες τεχνολογίες
+    Description: Discussion on new technologies
     Date: 2024-10-10
     Time: 18:00
-    Place: Αθήνα
-    Type: Συνάντηση
+    Place: Athens
+    Type: Meeting
     ```
 
-    Πατάει "Submit" και η εκδήλωση προστίθεται στη λίστα εκδηλώσεων.
+    Clicks "Submit" and the event is added to the list of events.
 
-4.  Συμμετοχή σε Εκδήλωση
+4.  Join Event
 
-    Ο χρήστης μπορεί να επιλέξει συμμετοχή σε οποιαδήποτε εκδήλωση είναι διαθέσιμη.
+    The user can choose to participate in any available event.
 
-    Παράδειγμα εκτέλεσης:
+    Example execution:
 
-    Ο χρήστης επιλέγει μια εκδήλωση από τη λίστα και πατάει "View Details".
+    The user selects an event from the list and clicks "View Details".
 
-    Επιλέγει "Definately Attending" ή "Maybe Attending" από το αναδυόμενο παράθυρο.
-    Μπορεί να επιλέξει και την επιλογή "Not going" σε περίπτωση που το μετανιώσει.
+    Chooses "Definitely Attending" or "Maybe Attending" from the popup.
+    They can also select "Not going" if they change their mind.
 
-    Το σύστημα εμφανίζει μήνυμα επιτυχίας και τη επιλογη που απάντησε:"Arnest has confirmed attendance." "Successfully joined the event!"
+    The system displays a success message with the choice they made: "Arnest has confirmed attendance." "Successfully joined the event!"
 
-    Ο χρήστης μπορεί επίσης να ενημερώσει την συμμετοχή του ακολουθώντας την ιδια διαδικασία με πάνω.
+    The user can also update their attendance following the same procedure as above.
 
-5.  Προβολή Προφίλ
+5.  View Profile
 
-    Ο χρήστης μπορεί να δεί το προφίλ του επιλέγοντας την επιλογή "Profile" στο μενού.
-    Το προφίλ του κάθε χρήστη εμφανίζει τις πληροφορίες του χρήστη, απο κάτω στα αριστερά εμφανίζει τις εκδηλώσεις που ο ιδιος έχει δημιουργήσει και δεξία τις εκδηλώσεις όπου εχει δηλώσει συμμετοχή.
+    The user can view their profile by selecting "Profile" from the menu.
+    The profile displays user information, with the events they created on the left and events they are attending on the right.
 
-    Στις Εκδηλώσεις που έχει δημιουργήσει, σε κάθε εκδήλωση έχει την δυνατότητα να το ανοίξει με το κουμπί "View Details", να το επεξεργαστεί με το κουμπί "Update" και να το διαγράψει με το κουμπί "Delete".
+    For events they created, they have the option to open with "View Details", edit with "Update", or delete with "Delete".
 
-    Στις Εκδηλώσεις που συμμετέχει, με το κουμπί "View Details" μπορεί να ενημερώσει την συμμετοχή του στην εκδήλωση σε περίπτωση που αλλάξει γνώμη.
+    For events they are attending, they can update their attendance status by selecting "View Details".
 
-### Διαχειριστής
+### Administrator
 
-Ο διαχειριστής έχει επιπλέον δικαιώματα και μπορεί να διαχειρίζεται τους χρήστες και τις εκδηλώσεις στο σύστημα.
+The administrator has additional rights and can manage users and events in the system.
 
-Οι βασικές λειτουργίες που μπορεί να εκτελέσει περιλαμβάνουν τη διαγραφή και τροποποίηση χρηστών και εκδηλώσεων.
+The main functions they can perform include deleting and modifying users and events.
 
-1. Διαχείριση Χρηστών
+1. User Management
 
-   Ο διαχειριστής μπορεί να προβάλει τη λίστα των χρηστών και να διαγράψει χρήστες από το σύστημα.
+   The administrator can view the list of users and delete users from the system.
 
-   Παράδειγμα εκτέλεσης:
+   Example execution:
 
-   Ο διαχειριστής συνδέεται στο σύστημα μέσω της φόρμας σύνδεσης με username: admin και password: admin321.
+   The administrator logs in with username: admin and password: admin321.
 
-   Επιλέγει την επιλογή "Users" από το κύριο μενού διαχείρισης.
+   Selects "Users" from the main management menu.
 
-   Εμφανίζεται μια λίστα με όλους τους χρήστες του συστήματος, συμπεριλαμβανομένων του ονόματος, του email και του username τους.
+   A list of all users in the system is displayed, including their names, email addresses, and usernames.
 
-   Ο διαχειριστής μπορεί να επιλέξει "Update" για να επεξεργαστεί κάποιον χρήστη και χρήστης ενημερώνεται επιτυχώς από το σύστημα.
+   The administrator can choose "Update" to edit a user, and the user is successfully updated in the system.
 
-   Ο διαχειριστής μπορεί να επιλέξει "Delete" για να διαγράψει κάποιον χρήστη.
-   O χρήστης διαγράφεται επιτυχώς από το σύστημα και όλες οι εκδηλώσεις που έχει δημιουργήσει διαγράφονται επίσης.
+   The administrator can select "Delete" to remove a user.
+   The user is successfully deleted, along with all the events they created.
 
-2. Διαχείριση Εκδηλώσεων
+2. Event Management
 
-   Ο διαχειριστής έχει τη δυνατότητα να διαγράψει ή να τροποποιήσει οποιαδήποτε εκδήλωση στο σύστημα, ακόμα και αυτές που έχουν δημιουργήσει άλλοι χρήστες.
+   The administrator can delete or modify any event in the system, even those created by other users.
 
-   Παράδειγμα εκτέλεσης:
+   Example execution:
 
-   Ο διαχειριστής επιλέγει "Events" από το κύριο μενού.
+   The administrator selects "Events" from the main menu.
 
-   Εμφανίζεται μια λίστα με όλες τις εκδηλώσεις που έχουν δημιουργηθεί στο σύστημα.
+   A list of all events created in the system is displayed.
 
-   Ο διαχειριστής μπορεί να επιλέξει "View Details" για να δει τις πληροφορίες της εκδήλωσης, όμως δεν μπορεί να συμμετάσχει όπως έναν συνδεδεμένο χρήστη.
+   The administrator can select "View Details" to see the event information but cannot participate like a regular user.
 
-   Ο διαχειριστής μπορεί να επιλέξει "Update" για να τροποποιήσει τα στοιχεία μιας εκδήλωσης ή "Delete" για να τη διαγράψει.
+   The administrator can choose "Update" to edit an event's details or "Delete" to remove it.
 
-## Αναφορές
+## References
 
-- [Flask Documentation](https://flask.palletsprojects.com/en/3.0.x/) - Χρησιμοποιήθηκε για την υλοποίηση του web framework.
+- [Flask Documentation](https://flask.palletsprojects.com/en/3.0.x/) - Used for implementing the web framework.
 
-- [Flask-Login Documentation](https://flask-login.readthedocs.io/en/latest/) - Χρησιμοποιήθηκε για τη διαχείριση συνεδριών και ταυτοποίησης χρηστών.
+- [Flask-Login Documentation](https://flask-login.readthedocs.io/en/latest/) - Used for session management and user authentication.
 
-- [PyMongo Documentation](https://pymongo.readthedocs.io/en/stable/) - Χρησιμοποιήθηκε για τη σύνδεση και την αλληλεπίδραση με τη βάση δεδομένων MongoDB.
+- [PyMongo Documentation](https://pymongo.readthedocs.io/en/stable/) - Used for connecting to and interacting with the MongoDB database.
 
-- [MongoDB Documentation](https://www.mongodb.com/docs/) - Αναφορά για τη δημιουργία και τη διαχείριση της MongoDB βάσης δεδομένων.
+- [MongoDB Documentation](https://www.mongodb.com/docs/) - Reference for creating and managing the MongoDB database.
 
-- [Docker Documentation](https://docs.docker.com/) - Χρησιμοποιήθηκε για τη ρύθμιση των container του συστήματος.
+- [Docker Documentation](https://docs.docker.com/) - Used for configuring the system's containers.
 
-- [Bootstrap Documentation](https://getbootstrap.com/docs/4.1/getting-started/introduction/) - Χρησιμοποιήθηκε για το responsive design του frontend.
+- [Bootstrap Documentation](https://getbootstrap.com/docs/4.1/getting-started/introduction/) - Used for the frontend's responsive design.
