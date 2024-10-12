@@ -1,6 +1,8 @@
 
 # DigiMeet - Event Management System
 
+DigiMeet - Event Management System is a web-based platform built using Python, Flask, and MongoDB, designed for managing events. It allows users to register, log in, and create events, while also providing options for event participation, search, and management. Administrators have additional privileges, such as managing user accounts and overseeing events. The system is containerized with Docker for easy deployment and features a responsive frontend built with Bootstrap.
+
 ## Contents
 
 1. [Additional Assumptions and Deviations from the Statement](#additional-assumptions-and-deviations-from-the-statement)
