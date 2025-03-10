@@ -53,8 +53,8 @@ DigiMeet - Event Management System is a web-based platform built using Python, F
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/arnest-allka/YpoxreotikiErgasiaSept24_e21004_Allka_Arnest.git
-   cd YpoxreotikiErgasiaSept24_e21004_Allka_Arnest
+   git clone https://github.com/arnest-allka/DigiMeet.git
+   cd DigiMeet
    ```
 
 2. Run the system with Docker:
